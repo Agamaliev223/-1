@@ -43,6 +43,9 @@ struct SList *list_last(struct SList *list)
 
 void list_add_back(struct SList **old, int64_t value)
 {
+    if (!old)
+        return;
+
     struct SList *new_l = node_create(value);
     struct SList *last_old = list_last(*old);
     if (NULL != last_old)
@@ -86,6 +89,9 @@ struct SList *list_node_at(struct SList *list, size_t idx)
 
 struct SValidInt64 list_at(struct SList *list, size_t idx)
 {
+    if (!list)
+        return none_int64;
+    
     struct SList *list_node = list_node_at(list, idx);
     if (NULL != list_node)
     {
@@ -96,7 +102,8 @@ struct SValidInt64 list_at(struct SList *list, size_t idx)
 
 struct SList *list_reverse(const struct SList *list)
 {
-    if (!list) return NULL;
+    if (!list) 
+        return NULL;
 
     struct SList *reversed_list = NULL;
     for (const struct SList *cur = list; cur != NULL; cur = cur->next)
