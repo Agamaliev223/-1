@@ -2,33 +2,45 @@
 
 static size_t stack_count(const struct SStack *s)
 {
+    if (!s)
+        return 0;
+
     return s->count;
 }
 
-
-struct SStack stack_create( size_t size )
+struct SStack stack_create(size_t size)
 {
     return (struct SStack){.count = 0, .data = {.size = size, .data = calloc(size, sizeof(int64_t))}};
 }
 
-void stack_destroy( struct SStack* s )
+void stack_destroy(struct SStack *s)
 {
-    free(s->data.data);
-    s = NULL;
+    if (s)
+    {
+        if (s->data.data)
+        {
+            free(s->data.data);
+        }
+        s = NULL;
+    }
 }
 
-bool stack_full( struct SStack s)
+bool stack_full(struct SStack s)
 {
     return s.count >= s.data.size;
 }
 
-bool stack_empty( struct SStack s)
+bool stack_empty(struct SStack s)
 {
     return 0 == s.count;
 }
 
-bool stack_push( struct SStack* s, int64_t value )
+bool stack_push(struct SStack *s, int64_t value)
 {
+    if (!s)
+    {
+        return false;
+    }
     if (stack_full(*s))
     {
         printf("Stack is full\n");
@@ -41,13 +53,17 @@ bool stack_push( struct SStack* s, int64_t value )
     return false;
 }
 
-struct SValidInt64 stack_pop( struct SStack* s )
+struct SValidInt64 stack_pop(struct SStack *s)
 {
+    if (!s)
+    {
+        return none_int64;
+    }
     if (stack_empty(*s))
     {
         printf("Stack is empty\n");
-    } 
-    else 
+    }
+    else
     {
         struct SValidInt64 val = array_get(&s->data, stack_count(s) - 1);
         if (val.valid)
@@ -59,7 +75,7 @@ struct SValidInt64 stack_pop( struct SStack* s )
     return none_int64;
 }
 
-void stack_print( struct SStack s )
+void stack_print(struct SStack s)
 {
     if (stack_empty(s))
     {
@@ -73,4 +89,3 @@ void stack_print( struct SStack s )
     }
     print_newline();
 }
-
