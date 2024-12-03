@@ -2,6 +2,10 @@
 
 int64_t * array_int_read(size_t * size)
 {
+    if (!size)
+    {
+        return NULL;
+    }
     printf("Enter array size: ");
     *size = read_size();
     int64_t* array = calloc(*size, sizeof(int64_t));
@@ -20,7 +24,10 @@ int64_t * array_int_read(size_t * size)
 
 void array_int_free(int64_t * array)
 {
-    free(array);
+    if (array)
+    {
+        free(array);
+    }
 }
 
 void array_int_print(int64_t * array, size_t size)
@@ -39,6 +46,10 @@ void array_int_print(int64_t * array, size_t size)
 
 int64_t ** marray_read(size_t * rows, size_t ** sizes)
 {
+    if (!rows || !sizes)
+    {
+        return NULL;
+    }
     printf("Enter Marray rows count: ");
     *rows = read_size();
     print_newline();
@@ -70,6 +81,10 @@ void marray_print(int64_t ** marray, size_t * sizes, size_t rows)
 
 void marray_free(int64_t ** marray, size_t rows)
 {
+    if (!marray)
+    {
+        return;
+    }
     for (size_t i = 0; i != rows; ++i)
     {
         free(marray[i]);
